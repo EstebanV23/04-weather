@@ -48,14 +48,14 @@ const constructDataFuture = (daily) => {
 const buildApp = async (zone) => {
   const weather = await fetchWeatherForZone(zone)
   const { hours, minutes, locationName, temperature, daily, temperatureApparentMin, temperatureApparentMax, humidity, windGust } = constructData(weather)
-  const weatherRender = generateWeather(temperature.toFixed(2), hours, minutes, locationName, temperatureApparentMin, temperatureApparentMax, humidity, windGust)
+  const weatherRender = generateWeather(Math.round(temperature), hours, minutes, locationName, temperatureApparentMin, temperatureApparentMax, humidity, windGust)
 
   render(weatherMain, weatherRender)
 
   const daysWeatherFutures = constructDataFuture(daily)
   const daysRender = daysWeatherFutures.map(item => {
     const { temperatureExpected, date, day, environmentDay } = item
-    return generateWeatherFutures(temperatureExpected, date, day, environmentDay)
+    return generateWeatherFutures(Math.round(temperatureExpected), date, day, environmentDay)
   }).join('')
 
   render(weathersFutures, daysRender)
